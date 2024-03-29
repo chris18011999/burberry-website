@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/react"
+import { SpeedInsights as VercelSpeedInsights } from "@vercel/speed-insights/next"
+
 import "./globals.css";
 
 import ClientNextUIProvider from "@/utils/next-ui-provider";
@@ -24,6 +27,8 @@ export default function RootLayout({
         <ClientNextUIProvider>
         {children}
         </ClientNextUIProvider>
+        <VercelAnalytics></VercelAnalytics>
+        <VercelSpeedInsights></VercelSpeedInsights>
       </body>
     </html>
   );
