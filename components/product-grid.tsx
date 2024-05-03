@@ -22,7 +22,7 @@ export function ProductGrid({
   }
 
   return (
-    <div className="flex gap-4 flex-wrap">
+    <div className="flex gap-4">
       <div className="hidden md:flex flex-2 w-[25%]">
         <h2>Filters</h2>
         <ProductFilters onChange={filterChange} filters={stateFilters!} />
