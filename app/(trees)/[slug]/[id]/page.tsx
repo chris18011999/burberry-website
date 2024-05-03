@@ -6,11 +6,11 @@ export async function generateStaticParams({
 }: {
   params: { slug: string; id: string };
 }) {
-  const { products } =
-    await fetcher.getProductsByTree(Number(params.id));
+  const trees = await fetcher.getTrees();
 
-  return products.map((product) => ({
-    id: `${product.id}`,
+  return trees.map((tree) => ({
+    slug: tree.slug,
+    id: `${tree.id}`,
   }));
 }
 

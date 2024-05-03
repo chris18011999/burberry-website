@@ -6,14 +6,6 @@ import FloatButtonGroup from "antd/lib/float-button/FloatButtonGroup";
 import { Metadata, ResolvingMetadata } from "next";
 import dataFetcher from "@/data/fetcher";
 
-export async function generateStaticParams() {
-  const products = await fetch(`https://fakestoreapi.com/products/`).then(
-    (data) => data.json()
-  );
-
-  return products.map(({ id }: { id: number }) => id);
-}
-
 export async function generateMetadata(
   { params }: { params: { id: number } },
   parent: ResolvingMetadata
@@ -41,15 +33,16 @@ export default async function ProductDetails({
 }: {
   params: { id: number };
 }) {
-  
   const product = await dataFetcher.getProductById(params.id);
-
 
   return (
     <main className="container mx-auto px-4">
       <div className="columns-2">
         <div>
-          <ProductCardImage image={product.picture.normal as string} alt={product.name} />
+          <ProductCardImage
+            image={product.picture.normal as string}
+            alt={product.name}
+          />
         </div>
         <div>
           <h1 className="text-2xl font-bold">{product.name}</h1>
@@ -65,9 +58,9 @@ export default async function ProductDetails({
         trigger="click"
         type="primary"
         style={{ right: 24 }}
-        icon={<CustomerServiceOutlined/>} 
+        icon={<CustomerServiceOutlined />}
       >
-        <FloatButton  style={{height: 100, width: 100}}/>
+        <FloatButton style={{ height: 100, width: 100 }} />
         <FloatButton icon={<CommentOutlined />} />
       </FloatButtonGroup>
     </main>
