@@ -4,16 +4,14 @@ import fetcher from "@/data/fetcher";
 export async function generateStaticParams({
   params,
 }: {
-  params: { slug: string; id: number };
+  params: { slug: string; id: string };
 }) {
   const { products } =
-    await fetcher.getProductsByTree(params.id);
-    const filters = await fetcher.getFiltersByTree(params.id);
+    await fetcher.getProductsByTree(Number(params.id));
 
-  return {
-    products,
-    filters
-  };
+  return products.map((product) => ({
+    id: `${product.id}`,
+  }));
 }
 
 export default async function CategoryPage({
