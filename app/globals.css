@@ -74,3 +74,28 @@
     @apply bg-background text-foreground;
   }
 }
+
+.product-image-loader .spinner,
+.product-image-loader img {
+  transition: opacity .3s ease;
+}
+
+.product-image-loader .spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-image-loader.is-loaded .spinner {
+  opacity: 0;
+}
+
+.product-image-loader.not-loaded img {
+  opacity: 0;
+}
+
+main {
+  margin-top: 45px;
+}

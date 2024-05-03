@@ -1,18 +1,21 @@
 {
-  "name": "burberry-website",
+  "name": "vanilla-next-js",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.3.6",
+    "@ant-design/nextjs-registry": "^1.0.0",
     "@nextui-org/react": "^2.2.10",
     "@radix-ui/react-navigation-menu": "^1.1.4",
     "@vercel/analytics": "^1.2.2",
     "@vercel/speed-insights": "^1.0.10",
+    "antd": "^5.16.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.23",

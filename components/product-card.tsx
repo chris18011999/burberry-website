@@ -1,27 +1,39 @@
-import { Card, CardBody, CardFooter, Image, Skeleton } from "@nextui-org/react";
-import Link from "next/link";
+"use client";
+
+import { HOST } from "@/data/fetcher";
 import ProductCardImage from "./product-card-image";
 import { priceFormatter } from "@/utils/price-formatter";
+import { Avatar, Card, CardBody, CardHeader } from "@nextui-org/react";
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "./button";
+import { ShoppingCartOutlined } from "@ant-design/icons";
 
-export default function ProductCard({ product }: { product: any }) {
+
+export default function ProductCard({ product }: { product: T_Product }) {
+  const imageSrc = product.picture.small?.includes("http")
+    ? product.picture.small
+    : `${HOST}${product.picture.small}`;
+
   return (
-    <Card
-      shadow="sm"
-      className="min-w-[300px] w-[300px]"
-      isPressable
-      href={'/product/'+product.id}
-      as={Link}
-    >
-      <CardBody className="overflow-visible p-0 h-[300px] relative">
-        <ProductCardImage image={product.image} alt={product.name}/>
-      </CardBody>
-      <CardFooter className="text-small justify-between text-left">
-        <div>    
-            <div className="text-small">{product.category}</div>
-            <b>{product.title}</b>
-        </div>
-        <p className="text-default-500">{priceFormatter.format(product.price)}</p>
-      </CardFooter>
-    </Card>
+    <Link href={`/product/${product.id}`}>
+      <Card radius="none" shadow="none">
+        <CardHeader>
+          <ProductCardImage
+            image={imageSrc}
+            alt={product.name}
+          ></ProductCardImage>
+        </CardHeader>
+        <CardBody className="flex-row items-end justify-between">
+          <div>
+            <p className="text-large">{product.name}</p>
+            <p className="font-bold">
+              {priceFormatter.format(Number(product.prices.sale))}
+            </p>
+          </div>
+          <Button><ShoppingCartOutlined /></Button>
+        </CardBody>
+      </Card>
+    </Link>
   );
 }
