@@ -1,13 +1,9 @@
-"use client";
-
 import fetcher from "@/data/fetcher";
 import Link from "next/link";
 import { Button } from "../button";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 
 export async function HeaderNav() {
-  const { slug: activeSlug } = useParams();
 
   return (
     <nav className="container mx-auto py-5 sticky top-[15px] z-[100] bg-white rounded-md shadow-md max-w-[calc(100%-30px)]">
@@ -17,10 +13,9 @@ export async function HeaderNav() {
         </Link>
         <div className="flex gap-6 ms-auto overflow-x-auto">
           {(await fetcher.getTrees()).map((tree) => {
-            const tree_is_active = tree.slug === activeSlug
             return (
               <Link key={tree.id} href={`/${tree.slug}/${tree.id}`}>
-                <Button is_selected={tree_is_active}>{tree.name}</Button>
+                <Button>{tree.name}</Button>
               </Link>
             );
           })}

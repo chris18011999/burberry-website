@@ -1,8 +1,4 @@
-"use client";
-
-import { Skeleton } from "@nextui-org/react";
 import Image from "next/image";
-import { useState } from "react";
 
 export default function ProductCardImage({
   image,
@@ -11,18 +7,13 @@ export default function ProductCardImage({
   image: string;
   alt: string;
 }) {
-  const [isLoaded, setLoaded] = useState(false);
+  const is_default_image = image.includes('default_');
 
-  return <Skeleton isLoaded={isLoaded} className="w-[100%]">
-    <Image
+  return <Image
       width={300}
       height={300}
       alt={alt}
-      className="w-[100%] object-contain h-[300px] block"
+      className={`w-[100%] object-${is_default_image ? "cover" : "contain"} h-[300px] block`}
       src={image}
-      onLoad={() => {
-        setLoaded(true);
-      }}
-    />
-  </Skeleton>;
+    />;
 }
