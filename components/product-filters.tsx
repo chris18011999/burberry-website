@@ -1,5 +1,6 @@
 import dataFetcher from "@/data/fetcher";
 import { Checkbox, Skeleton } from "@nextui-org/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -42,18 +43,36 @@ export function ProductFilters({
       className="flex flex-col gap-4 p-3 bg-white border-1 rounded-small"
       key={filters.selected_filters.toString()}
     >
-      {filters.attributes.map((filter) => {
-        return (
-          <div className="flex flex-col gap-1" key={filter.id}>
-            <strong>{filter.name}</strong>
-            <div>{filter.description}</div>
+      {filters.trees.length > 0 && (
+        <>
+          <div className="flex flex-col gap-1" key={"tree-filters"}>
+            <strong>Categories</strong>
             <ul className="flex flex-col gap-1">
-              {filter.values.map((value) => {
+              {filters.trees.map((value) => {
                 return (
                   <Skeleton isLoaded={!loading} key={value.id}>
-                    <li
-                      className="flex align-items-center gap-2"
-                    >
+                    <li className="flex align-items-center gap-2">
+                      <Link href={`/${value.slug}/${value.id}/`}>
+                        {value.name}
+                      </Link>
+                    </li>
+                  </Skeleton>
+                );
+              })}
+            </ul>
+          </div>
+          <hr />
+        </>
+      )}
+      {filters.brands.length > 0 && (
+        <>
+          <div className="flex flex-col gap-1" key={"brand-filters"}>
+            <strong>Brands</strong>
+            <ul className="flex flex-col gap-1">
+              {filters.brands.map((value) => {
+                return (
+                  <Skeleton isLoaded={!loading} key={value.id}>
+                    <li className="flex align-items-center gap-2">
                       <Checkbox
                         checked={value.selected}
                         isSelected={value.selected}
@@ -69,8 +88,40 @@ export function ProductFilters({
               })}
             </ul>
           </div>
-        );
-      })}
+          <hr />
+        </>
+      )}
+      {filters.attributes && (
+        <div className="flex flex-col gap-4">
+          {filters.attributes.map((filter) => {
+            return (
+              <div className="flex flex-col gap-1" key={filter.id}>
+                <strong>{filter.name}</strong>
+                <div>{filter.description}</div>
+                <ul className="flex flex-col gap-1">
+                  {filter.values.map((value) => {
+                    return (
+                      <Skeleton isLoaded={!loading} key={value.id}>
+                        <li className="flex align-items-center gap-2">
+                          <Checkbox
+                            checked={value.selected}
+                            isSelected={value.selected}
+                            onChange={() => {
+                              updateUrl(value.api_link);
+                            }}
+                          >
+                            {value.name}
+                          </Checkbox>
+                        </li>
+                      </Skeleton>
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
