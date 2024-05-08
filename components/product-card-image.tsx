@@ -11,9 +11,9 @@ export default function ProductCardImage({
 
   return <Image
       width={300}
-      height={300}
+      height={200}
       alt={alt}
-      className={`w-[100%] object-${is_default_image ? "cover" : "contain"} h-[300px] block`}
+      className={`w-[100%] object-contain h-[200px] block`}
       src={image}
     />;
 }

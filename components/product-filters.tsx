@@ -1,5 +1,6 @@
 import dataFetcher from "@/data/fetcher";
 import { Checkbox, Skeleton } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function ProductFilters({
@@ -7,43 +8,55 @@ export function ProductFilters({
   onChange,
 }: {
   filters: T_TreeSearchResultFilters;
-  onChange: (filters: T_TreeSearchResultFilters, products: T_Product[]) => void;
+  onChange: (url: string) => Promise<void>;
 }) {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
-  const [renderFilters, setRenderFilters] =
-    useState<T_TreeSearchResultFilters>(filters);
+
+  function extractQueryParams(url: string): string {
+    // Find the index of the '?' character
+    const queryIndex = url.indexOf("?");
+
+    if (queryIndex !== -1) {
+      // Extract the query parameters
+      const queryParams = url.substring(queryIndex);
+      return queryParams;
+    } else {
+      return "";
+    }
+  }
 
   const updateUrl = async (url: string) => {
     setLoading(true);
-    setUrl(url);
 
-    const filterData = await dataFetcher.dangerousFetch<
-      T_TreeSearchResultFilters & { products: T_Product[] }
-    >(url);
+    const query = extractQueryParams(url);
 
-    onChange(filterData, filterData.products);
-    setRenderFilters(filterData);
+    global.history.pushState(query, "", query);
+
+    await onChange(url);
     setLoading(false);
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <Skeleton isLoaded={!loading} className="radius-sm">
-        {renderFilters.attributes.map((filter) => {
-          return (
-            <div key={filter.id} className="flex flex-col gap-1">
-              <strong>{filter.name}</strong>
-              <div>{filter.description}</div>
-              <ul className="flex flex-col gap-1">
-                {filter.values.map((value) => {
-                  return (
+    <div
+      className="flex flex-col gap-4 p-3 bg-white border-1 rounded-small"
+      key={filters.selected_filters.toString()}
+    >
+      {filters.attributes.map((filter) => {
+        return (
+          <div className="flex flex-col gap-1" key={filter.id}>
+            <strong>{filter.name}</strong>
+            <div>{filter.description}</div>
+            <ul className="flex flex-col gap-1">
+              {filter.values.map((value) => {
+                return (
+                  <Skeleton isLoaded={!loading} key={value.id}>
                     <li
-                      key={value.id}
                       className="flex align-items-center gap-2"
                     >
                       <Checkbox
                         checked={value.selected}
+                        isSelected={value.selected}
                         onChange={() => {
                           updateUrl(value.api_link);
                         }}
@@ -51,13 +64,13 @@ export function ProductFilters({
                         {value.name}
                       </Checkbox>
                     </li>
-                  );
-                })}
-              </ul>
-            </div>
-          );
-        })}
-      </Skeleton>
+                  </Skeleton>
+                );
+              })}
+            </ul>
+          </div>
+        );
+      })}
     </div>
   );
 }

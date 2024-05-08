@@ -11,20 +11,36 @@ async function getTrees(): Promise<T_TreeResult> {
   );
 }
 
-async function getProductsByTree(tree_id: number): Promise<T_TreeSearchResultProducts> {
+async function getProductsByTree(
+  tree_id: number,
+  filters?: any[]
+): Promise<T_TreeSearchResultProducts> {
   return await doFetch<T_TreeSearchResultProducts>(
-    `${LANGUAGE_CODE}/api/v1/search/products/?tree_id=${tree_id}`
+    `${LANGUAGE_CODE}/api/v1/search/products/?tree_id=${tree_id}&v=${filters?.join(
+      "&v="
+    )}`
   );
 }
 
-async function getFiltersByTree(tree_id: number): Promise<T_TreeSearchResultFilters> {
-  return await doFetch<T_TreeSearchResultFilters>(
-    `${LANGUAGE_CODE}/api/v1/search/filters/?tree_id=${tree_id}`
+async function getFiltersByTree(
+  tree_id: number,
+  filters?: any[]
+): Promise<T_TreeSearchResultFilters> {
+  const _filters = await doFetch<T_TreeSearchResultFilters>(
+    `${LANGUAGE_CODE}/api/v1/search/filters/?tree_id=${tree_id}&v=${filters?.join(
+      "&v="
+    )}`
   );
+
+  return _filters;
 }
 
 async function getAllProducts(): Promise<T_Product[]> {
-  return (await doFetch<{total_found: number, products: T_Product[]}>(`${LANGUAGE_CODE}/api/v1/product/v2/`)).products;
+  return (
+    await doFetch<{ total_found: number; products: T_Product[] }>(
+      `${LANGUAGE_CODE}/api/v1/product/v2/`
+    )
+  ).products;
 }
 
 async function dangerousFetch<T>(url: string): Promise<T> {
@@ -46,6 +62,13 @@ async function getProductById(product_id: number): Promise<T_Product> {
   );
 }
 
-const dataFetcher = { getTrees, getProductsByTree, getProductById, getFiltersByTree, getAllProducts, dangerousFetch };
+const dataFetcher = {
+  getTrees,
+  getProductsByTree,
+  getProductById,
+  getFiltersByTree,
+  getAllProducts,
+  dangerousFetch,
+};
 
 export default dataFetcher;

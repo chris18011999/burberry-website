@@ -53,16 +53,6 @@ export default async function ProductDetails({
           <div>Price: {priceFormatter.format(Number(product.prices.sale))}</div>
         </div>
       </div>
-
-      <FloatButtonGroup
-        trigger="click"
-        type="primary"
-        style={{ right: 24 }}
-        icon={<CustomerServiceOutlined />}
-      >
-        <FloatButton style={{ height: 100, width: 100 }} />
-        <FloatButton icon={<CommentOutlined />} />
-      </FloatButtonGroup>
     </main>
   );
 }

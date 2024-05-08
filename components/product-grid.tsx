@@ -3,6 +3,7 @@
 import { useState } from "react";
 import ProductCard from "./product-card";
 import { ProductFilters } from "./product-filters";
+import dataFetcher from "@/data/fetcher";
 
 export function ProductGrid({
   products,
@@ -13,25 +14,34 @@ export function ProductGrid({
   filters?: T_TreeSearchResultFilters;
   total_found: number;
 }) {
+  const [loadingProducts, setLoadingProducts] = useState(false);
   const [stateProducts, setStateProducts] = useState(products);
   const [stateFilters, setStateFilters] = useState(filters);
+  const [stateTotalFound, setStateTotalFound] = useState(total_found);
 
-  const filterChange = (filters: T_TreeSearchResultFilters, products: T_Product[]) => {
-    setStateProducts(products);
-    setStateFilters(filters)
+  const onChange = async (url: string) => {
+    setLoadingProducts(true);
+    const filterData = await dataFetcher.dangerousFetch<
+      T_TreeSearchResultFilters & { products: T_Product[] }
+    >(url);
+
+    setStateTotalFound(filterData.total_found);
+    setStateFilters(filterData);
+    setStateProducts(filterData.products);
+    setLoadingProducts(false);
   }
 
+  
   return (
     <div className="flex gap-4">
       <div className="hidden md:block flex-2 w-[25%]">
-        <h2>Filters</h2>
-        <ProductFilters onChange={filterChange} filters={stateFilters!} />
+        <ProductFilters onChange={onChange} filters={stateFilters!} />
       </div>
       <div className="w-[100%] md:w-[75%]">
-        <h2>{total_found} Products</h2>
+        <h2>{stateTotalFound} Products</h2>
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {stateProducts.map((product) => {
-            return <ProductCard product={product} key={product.id} />;
+            return <ProductCard product={product} key={product.id}/>;
           })}
         </div>
       </div>

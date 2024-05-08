@@ -11,7 +11,7 @@ export default function ProductCard({ product }: { product: T_Product }) {
 
   return (
     <Card
-      className="border-1"
+      className="border-1 h-full"
       radius="sm"
       as={Link}
       href={`/product/${product.id}`}
@@ -24,10 +24,10 @@ export default function ProductCard({ product }: { product: T_Product }) {
           alt={product.name}
         ></ProductCardImage>
       </CardHeader>
-      <CardBody className="flex-row items-end justify-between">
-        <div>
+      <CardBody className="flex-row items-end justify-between h-full">
+        <div className="flex flex-col h-full">
           <p className="text-large">{product.name}</p>
-          <p className="font-bold">
+          <p className="font-bold mt-auto">
             {priceFormatter.format(Number(product.prices.sale))}
           </p>
         </div>
