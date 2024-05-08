@@ -1,19 +1,27 @@
+import { HOST } from "@/data/fetcher";
 import Image from "next/image";
 
 export default function ProductCardImage({
   image,
   alt,
+  width = 300,
+  height = 200,
 }: {
   image: string;
   alt: string;
+  width?: number;
+  height?: number;
 }) {
-  const is_default_image = image.includes('default_');
+  const imageSrc = image?.includes("http") ? image : `${HOST}${image}`;
+  const is_default_image = image.includes("default_");
 
-  return <Image
-      width={300}
-      height={200}
+  return (
+    <Image
+      width={width}
+      height={height}
       alt={alt}
-      className={`w-[100%] object-contain h-[200px] block`}
-      src={image}
-    />;
+      className={`object-contain block`}
+      src={imageSrc}
+    />
+  );
 }

@@ -5,9 +5,7 @@ import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import Link from "next/link";
 
 export default function ProductCard({ product }: { product: T_Product }) {
-  const imageSrc = product.picture.small?.includes("http")
-    ? product.picture.small
-    : `${HOST}${product.picture.small}`;
+  
 
   return (
     <Card
@@ -20,7 +18,7 @@ export default function ProductCard({ product }: { product: T_Product }) {
     >
       <CardHeader className="justify-stretch">
         <ProductCardImage
-          image={imageSrc}
+          image={product.picture.small as string}
           alt={product.name}
         ></ProductCardImage>
       </CardHeader>
