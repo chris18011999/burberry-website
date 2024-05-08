@@ -16,21 +16,16 @@ export function ProductGrid({
   total_found: number;
   tree?: T_Tree
 }) {
-  const [loadingProducts, setLoadingProducts] = useState(false);
   const [stateProducts, setStateProducts] = useState(products);
   const [stateFilters, setStateFilters] = useState(filters);
-  const [stateTotalFound, setStateTotalFound] = useState(total_found);
 
   const onChange = async (url: string) => {
-    setLoadingProducts(true);
     const filterData = await dataFetcher.dangerousFetch<
       T_TreeSearchResultFilters & { products: T_Product[] }
     >(url);
 
-    setStateTotalFound(filterData.total_found);
     setStateFilters(filterData);
     setStateProducts(filterData.products);
-    setLoadingProducts(false);
   }
   
   return (
