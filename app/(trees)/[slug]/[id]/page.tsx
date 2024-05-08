@@ -27,14 +27,19 @@ export default async function CategoryPage({
     ? searchParams.v
     : [searchParams.v];
 
-  const { products, total_found, search_term } =
+  const { products, total_found } =
     await fetcher.getProductsByTree(params.id, searchFilters);
+
+  const treeData = await fetcher.getTreeById(params.id);
   const filters = await fetcher.getFiltersByTree(params.id, searchFilters);
+
+  console.log(treeData)
 
   return (
     <main className="container mx-auto">
       <ProductGrid
         key={JSON.stringify(searchParams)}
+        tree={treeData}
         products={products}
         filters={filters}
         total_found={total_found}

@@ -8,7 +8,7 @@ export function ProductFilters({
   filters,
   onChange,
 }: {
-  filters: T_TreeSearchResultFilters;
+  filters?: T_TreeSearchResultFilters;
   onChange: (url: string) => Promise<void>;
 }) {
   const [url, setUrl] = useState("");
@@ -38,8 +38,10 @@ export function ProductFilters({
     setLoading(false);
   };
 
+  console.log(filters)
+
   return (
-    <div
+    filters != undefined ? <div
       className="flex flex-col gap-4 p-3 bg-white border-1 rounded-small"
       key={filters.selected_filters.toString()}
     >
@@ -122,6 +124,6 @@ export function ProductFilters({
           })}
         </div>
       )}
-    </div>
+    </div> : null
   );
 }

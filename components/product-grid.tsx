@@ -9,10 +9,12 @@ export function ProductGrid({
   products,
   filters,
   total_found,
+  tree
 }: {
   products: T_Product[];
   filters?: T_TreeSearchResultFilters;
   total_found: number;
+  tree?: T_Tree
 }) {
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [stateProducts, setStateProducts] = useState(products);
@@ -30,7 +32,6 @@ export function ProductGrid({
     setStateProducts(filterData.products);
     setLoadingProducts(false);
   }
-
   
   return (
     <div className="flex gap-4">
@@ -38,7 +39,11 @@ export function ProductGrid({
         <ProductFilters onChange={onChange} filters={stateFilters!} />
       </div>
       <div className="w-[100%] md:w-[75%]">
-        <h2>{stateTotalFound} Products</h2>
+        <h2 className="text-3xl mb-3 font-bold flex items-center justify-between flex-wrap">
+          {tree?.name}
+
+          <span className="font-normal text-sm">{total_found} products</span>  
+        </h2>
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {stateProducts.map((product) => {
             return <ProductCard product={product} key={product.id}/>;

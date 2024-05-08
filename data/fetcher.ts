@@ -22,6 +22,18 @@ async function getProductsByTree(
   );
 }
 
+async function getProductsBySearchTerm(
+  search_term: string,
+): Promise<T_TreeSearchResultProducts> {
+  return await doFetch<T_TreeSearchResultProducts>(
+    `${LANGUAGE_CODE}/api/v1/search/?search_term=${search_term}`
+  );
+}
+
+async function getTreeById(tree_id: number): Promise<T_Tree> {
+  return await doFetch<T_Tree>(`${LANGUAGE_CODE}/api/v1/tree/${tree_id}/`);
+}
+
 async function getFiltersByTree(
   tree_id: number,
   filters?: any[]
@@ -69,6 +81,8 @@ const dataFetcher = {
   getFiltersByTree,
   getAllProducts,
   dangerousFetch,
+  getTreeById,
+  getProductsBySearchTerm
 };
 
 export default dataFetcher;
