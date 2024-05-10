@@ -101,3 +101,9 @@
 main {
   margin-top: 45px;
 }
+
+
+html, body {
+  scroll-behavior: smooth;
+  scroll-padding-top: 240px;
+}

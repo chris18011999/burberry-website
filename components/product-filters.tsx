@@ -1,7 +1,5 @@
-import dataFetcher from "@/data/fetcher";
 import { Checkbox, Skeleton } from "@nextui-org/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function ProductFilters({
@@ -11,7 +9,6 @@ export function ProductFilters({
   filters?: T_TreeSearchResultFilters;
   onChange: (url: string) => Promise<void>;
 }) {
-  const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
 
   function extractQueryParams(url: string): string {

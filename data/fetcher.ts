@@ -1,5 +1,6 @@
 export const HOST = "https://test-vanilla.cloudsuite.com";
 export const LANGUAGE_CODE = "/nl-nl";
+export const PAGE_SIZE = 3;
 
 async function doFetch<T>(url: string): Promise<T> {
   return await fetch(`${HOST}${url}`).then((data) => data.json());
@@ -17,7 +18,7 @@ async function getProductsByTree(
   page?: number
 ): Promise<T_TreeSearchResultProducts> {
   return await doFetch<T_TreeSearchResultProducts>(
-    `${LANGUAGE_CODE}/api/v1/search/products/?page=${page || 1}&tree_id=${tree_id}&v=${filters?.join(
+    `${LANGUAGE_CODE}/api/v1/search/products/?page_size=${PAGE_SIZE}&page=${page || 1}&tree_id=${tree_id}&v=${filters?.join(
       "&v="
     )}`
   );
@@ -25,9 +26,10 @@ async function getProductsByTree(
 
 async function getProductsBySearchTerm(
   search_term: string,
+  page?: number
 ): Promise<T_TreeSearchResultProducts> {
   return await doFetch<T_TreeSearchResultProducts>(
-    `${LANGUAGE_CODE}/api/v1/search/?search_term=${search_term}`
+    `${LANGUAGE_CODE}/api/v1/search/?page_size=${PAGE_SIZE}&page=${page || 1}&search_term=${search_term}`
   );
 }
 
@@ -41,14 +43,26 @@ async function getFiltersByTree(
   page?: number
 ): Promise<T_TreeSearchResultFilters> {
   const _filters = await doFetch<T_TreeSearchResultFilters>(
-    `${LANGUAGE_CODE}/api/v1/search/filters/?page=${page || 1}&tree_id=${tree_id}&v=${filters?.join(
+    `${LANGUAGE_CODE}/api/v1/search/filters/?page_size=${PAGE_SIZE}&page=${page || 1}&tree_id=${tree_id}&v=${filters?.join(
       "&v="
     )}`
   );
 
   return _filters;
 }
+async function getFiltersBySearchTerm(
+  search_term: string,
+  filters?: any[],
+  page?: number
+): Promise<T_TreeSearchResultFilters> {
+  const _filters = await doFetch<T_TreeSearchResultFilters>(
+    `${LANGUAGE_CODE}/api/v1/search/filters/?page_size=${PAGE_SIZE}&page=${page || 1}&search_term=${search_term}&v=${filters?.join(
+      "&v="
+    )}`
+  );
 
+  return _filters;
+}
 async function getAllProducts(): Promise<T_Product[]> {
   return (
     await doFetch<{ total_found: number; products: T_Product[] }>(
@@ -84,7 +98,8 @@ const dataFetcher = {
   getAllProducts,
   dangerousFetch,
   getTreeById,
-  getProductsBySearchTerm
+  getProductsBySearchTerm,
+  getFiltersBySearchTerm
 };
 
 export default dataFetcher;

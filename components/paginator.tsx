@@ -1,6 +1,9 @@
 "use client";
 
+import { Pagination } from "@nextui-org/react";
 import { Button } from "./button";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export function Paginator({
   paginator,
@@ -9,6 +12,7 @@ export function Paginator({
   paginator: T_Paginator;
   onClick: Function;
 }) {
+  const [currentPage, setCurrentPage] = useState(paginator.page);
 
   function extractQueryParams(url: string): string {
     // Find the index of the '?' character
@@ -22,34 +26,34 @@ export function Paginator({
       return "";
     }
   }
+  const updateUrl = async (page: number) => {
+    let newUrl =
+      page > paginator.page
+        ? paginator.next_page_search_link
+        : page < paginator.page ? paginator.prev_page_search_link : null;
 
-  const updateUrl = async (url: string) => {
-    const query = extractQueryParams(url);
+    if(!newUrl) return;
+
+    const query = extractQueryParams(newUrl || "");
 
     global.history.pushState(query, "", query);
 
-    await onClick(url);
+    await onClick(newUrl);
   };
 
+  useEffect(() => {
+    updateUrl(currentPage);
+  }, [currentPage]);
+
   return (
-    <div className="flex items-center justify-center py-5 gap-4">
-      <Button
-        disabled={!paginator.has_prev}
-        onClick={() => {
-          updateUrl(paginator.prev_page_search_link!)
-        }}
-      >
-        Prev
-      </Button>
-      Page {paginator.page} / {paginator.num_pages}
-      <Button
-        disabled={!paginator.has_next}
-        onClick={() => {
-          updateUrl(paginator.next_page_search_link!)
-        }}
-      >
-        Next
-      </Button>
-    </div>
+    <Pagination
+      className="flex py-8 justify-center"
+      showControls
+      variant="light"
+      color="primary"
+      total={paginator.num_pages}
+      initialPage={currentPage}
+      onChange={setCurrentPage}
+    />
   );
 }
