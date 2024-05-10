@@ -13,10 +13,11 @@ async function getTrees(): Promise<T_TreeResult> {
 
 async function getProductsByTree(
   tree_id: number,
-  filters?: any[]
+  filters?: any[],
+  page?: number
 ): Promise<T_TreeSearchResultProducts> {
   return await doFetch<T_TreeSearchResultProducts>(
-    `${LANGUAGE_CODE}/api/v1/search/products/?tree_id=${tree_id}&v=${filters?.join(
+    `${LANGUAGE_CODE}/api/v1/search/products/?page=${page || 1}&tree_id=${tree_id}&v=${filters?.join(
       "&v="
     )}`
   );
@@ -36,10 +37,11 @@ async function getTreeById(tree_id: number): Promise<T_Tree> {
 
 async function getFiltersByTree(
   tree_id: number,
-  filters?: any[]
+  filters?: any[],
+  page?: number
 ): Promise<T_TreeSearchResultFilters> {
   const _filters = await doFetch<T_TreeSearchResultFilters>(
-    `${LANGUAGE_CODE}/api/v1/search/filters/?tree_id=${tree_id}&v=${filters?.join(
+    `${LANGUAGE_CODE}/api/v1/search/filters/?page=${page || 1}&tree_id=${tree_id}&v=${filters?.join(
       "&v="
     )}`
   );

@@ -21,14 +21,14 @@ export default async function CategoryPage({
   searchParams,
 }: {
   params: { slug: string; id: number };
-  searchParams: { tree_id: string; v?: string[] };
+  searchParams: { tree_id: string; v?: string[], page?: number };
 }) {
   const searchFilters = Array.isArray(searchParams.v)
     ? searchParams.v
     : [searchParams.v];
 
   const { products, total_found, paginator } =
-    await fetcher.getProductsByTree(params.id, searchFilters);
+    await fetcher.getProductsByTree(params.id, searchFilters, searchParams.page);
 
   const treeData = await fetcher.getTreeById(params.id);
   const filters = await fetcher.getFiltersByTree(params.id, searchFilters);
@@ -41,6 +41,7 @@ export default async function CategoryPage({
         products={products}
         filters={filters}
         total_found={total_found}
+        paginator={paginator}
       ></ProductGrid>
     </main>
   );
