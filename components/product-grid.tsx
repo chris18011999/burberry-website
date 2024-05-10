@@ -9,12 +9,14 @@ export function ProductGrid({
   products,
   filters,
   total_found,
-  tree
+  tree,
+  paginator
 }: {
   products: T_Product[];
   filters?: T_TreeSearchResultFilters;
   total_found: number;
-  tree?: T_Tree
+  tree?: T_Tree,
+  paginator?: T_Paginator
 }) {
   const [stateProducts, setStateProducts] = useState(products);
   const [stateFilters, setStateFilters] = useState(filters);
@@ -30,6 +32,7 @@ export function ProductGrid({
   
   return (
     <div className="flex gap-4">
+      <pre>{JSON.stringify(paginator)}</pre>
       <div className="hidden md:block flex-2 w-[25%]">
         <ProductFilters onChange={onChange} filters={stateFilters!} />
       </div>

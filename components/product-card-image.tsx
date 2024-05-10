@@ -6,11 +6,13 @@ export default function ProductCardImage({
   alt,
   width = 300,
   height = 200,
+  className
 }: {
   image: string;
   alt: string;
   width?: number;
   height?: number;
+  className?: string
 }) {
   const imageSrc = image?.includes("http") ? image : `${HOST}${image}`;
   const is_default_image = image.includes("default_");
@@ -20,7 +22,7 @@ export default function ProductCardImage({
       width={width}
       height={height}
       alt={alt}
-      className={`object-contain block`}
+      className={`object-contain block ${className}`}
       src={imageSrc}
     />
   );

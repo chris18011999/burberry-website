@@ -38,8 +38,9 @@ export default async function ProductDetails({
   return (
     <main className="container mx-auto px-4">
       <div className="columns-2">
-        <div>
+        <div className="p-5 bg-white">
           <ProductCardImage
+            className="w-full h-[400px]"
             image={product.picture.normal as string}
             alt={product.name}
           />

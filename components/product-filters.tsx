@@ -38,8 +38,6 @@ export function ProductFilters({
     setLoading(false);
   };
 
-  console.log(filters)
-
   return (
     filters != undefined ? <div
       className="flex flex-col gap-4 p-3 bg-white border-1 rounded-small"

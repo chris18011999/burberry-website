@@ -18,11 +18,12 @@ export default function ProductCard({ product }: { product: T_Product }) {
     >
       <CardHeader className="justify-stretch">
         <ProductCardImage
+          className="h-[260px]"
           image={product.picture.small as string}
           alt={product.name}
         ></ProductCardImage>
       </CardHeader>
-      <CardBody className="flex-row items-end justify-between h-full">
+      <CardBody className="flex-row items-end justify-between h-full pt-0">
         <div className="flex flex-col h-full">
           <p className="text-large">{product.name}</p>
           <p className="font-bold mt-auto">
