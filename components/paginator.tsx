@@ -1,9 +1,8 @@
 "use client";
 
 import { Pagination } from "@nextui-org/react";
-import { Button } from "./button";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export function Paginator({
   paginator,
@@ -13,6 +12,9 @@ export function Paginator({
   onClick: Function;
 }) {
   const [currentPage, setCurrentPage] = useState(paginator.page);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
 
   function extractQueryParams(url: string): string {
     // Find the index of the '?' character
@@ -34,9 +36,9 @@ export function Paginator({
 
     if(!newUrl) return;
 
-    const query = extractQueryParams(newUrl || "");
+    const query = extractQueryParams(newUrl);
 
-    global.history.pushState(query, "", query);
+    replace(`${pathname}?${query.toString()}`);
 
     await onClick(newUrl);
   };

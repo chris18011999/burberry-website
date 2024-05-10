@@ -2,6 +2,8 @@ import { Checkbox, Skeleton } from "@nextui-org/react";
 import Link from "next/link";
 import { useState } from "react";
 
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
 export function ProductFilters({
   filters,
   onChange,
@@ -10,6 +12,10 @@ export function ProductFilters({
   onChange: (url: string) => Promise<void>;
 }) {
   const [loading, setLoading] = useState(false);
+  
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
 
   function extractQueryParams(url: string): string {
     // Find the index of the '?' character
@@ -29,7 +35,7 @@ export function ProductFilters({
 
     const query = extractQueryParams(url);
 
-    global.history.pushState(query, "", query);
+    replace(`${pathname}?${query.toString()}`);
 
     await onChange(url);
     setLoading(false);

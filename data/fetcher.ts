@@ -1,6 +1,6 @@
 export const HOST = "https://test-vanilla.cloudsuite.com";
 export const LANGUAGE_CODE = "/nl-nl";
-export const PAGE_SIZE = 3;
+export const PAGE_SIZE = 18;
 
 async function doFetch<T>(url: string): Promise<T> {
   return await fetch(`${HOST}${url}`).then((data) => data.json());
